@@ -1,0 +1,67 @@
+<h2>Inbox</h2>
+<table class="table">
+  <thead class="thead-light">
+    <th scope="col">From</th>
+    <th scope="col">Subject</th>
+    <th scope="col">Received</th>
+  </thead>
+  <tbody>
+    {{#each messages}}
+      <tr class="{{#unless this.isRead}}table-primary{{/unless}}">
+        <td title="{{this.from.emailAddress.address}}">{{this.from.emailAddress.name}}</td>
+        <td>{{this.subject}}</td>
+        <td>{{this.receivedDateTime}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+<div class="row">
+    <div class="col">
+        <h4>Send Mail</h4>
+    </div>
+</div>
+<div class="row mb-1">
+    <div class="col">
+        <input class='' id='recipient' type="text" placeholder="Recipient">
+    </div>
+</div>
+<div class='row'>
+    <div class="col">
+        <textarea name="email" id="" cols="80" rows="10"></textarea>
+    </div>
+</div>
+<div class="row">
+    <button class='btn btn-primary' onclick=sendClick() >Send</button>
+</div>
+
+<script>
+   let sendClick = () => {
+       // Set up our HTTP request
+        var xhr = new XMLHttpRequest();
+
+        // Setup our listener to process completed requests
+        xhr.onload = function () {
+
+            // Process our return data
+            if (xhr.status >= 200 && xhr.status < 300) {
+                // What do when the request is successful
+                console.log('success!', xhr);
+            } else {
+                // What do when the request fails
+                console.log('The request failed!');
+            }
+
+            // Code that should run regardless of the request status
+            console.log('This always runs...');
+        };
+
+        // Create and send a GET request
+        // The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+        // The second argument is the endpoint URL
+        xhr.open('POST', 'mail/send');
+        xhr.send();
+
+
+       
+    }
+</script>
